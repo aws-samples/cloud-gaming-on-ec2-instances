@@ -1,0 +1,79 @@
+{
+  "extends": [
+    "tslint:all"
+  ],
+  "rules": {
+    "cyclomatic-complexity": false,
+    "increment-decrement": false,
+    "newline-before-return": false,
+    "newline-per-chained-call": false,
+    "no-parameter-properties": false,
+    "no-parameter-reassignment": false,
+    "no-implicit-dependencies": false,
+    "no-unnecessary-class": ["allow-empty-class", "allow-constructor-only"],
+    "file-name-casing":  false,
+    "object-literal-sort-keys": false,
+    "max-line-length": false,
+    "whitespace":  false,
+    "no-unused-variable": false,
+    "no-var-requires": false,
+    "no-console": false,
+    "typedef": false,
+    "unnecessary-else": false,
+    "trailing-comma": false,
+    "comment-format": {
+      "options": [
+        "check-space"
+      ]
+    },
+    "member-access": true,
+    "only-arrow-functions": {
+      "options": [
+        "allow-declarations",
+        "allow-named-functions"
+      ]
+    },
+
+    "completed-docs": false,
+    "no-any": false,
+    "no-magic-numbers": false,
+    "no-non-null-assertion": false,
+    "no-null-keyword": false,
+    "no-require-imports": false,
+    "no-unbound-method": false,
+    "no-unnecessary-qualifier": false,
+    "no-use-before-declare": false,
+    "no-void-expression": false,
+    "prefer-function-over-method": false,
+    "strict-comparisons": false,
+    "strict-type-predicates": false,
+    "triple-equals": {
+      "options": [
+        "allow-undefined-check"
+      ]
+    },
+    "interface-name": false,
+    "max-classes-per-file": false,
+    "member-ordering": {
+      "options": {
+        "order": "statics-first"
+      }
+    },
+    "no-switch-case-fall-through": true,
+    "strict-boolean-expressions": {
+      "options": [
+        "allow-boolean-or-undefined"
+      ]
+    },
+    "switch-default": false,
+    "variable-name": {
+      "options": [
+        "ban-keywords",
+        "check-format",
+        "allow-leading-underscore",
+        "allow-pascal-case"
+      ]
+    },
+    "linebreak-style": false
+  }
+}
