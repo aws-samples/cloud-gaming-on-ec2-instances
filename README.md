@@ -1,4 +1,4 @@
-# Discover sensitive data in AWS CodeCommit
+# Use Amazon EC2 for cost-efficient cloud gaming with pay-as-you-go pricing
 
 This repository contains the full source code that is used in the blog post [Use Amazon EC2 for cost-efficient cloud gaming with pay-as-you-go pricing](https://aws.amazon.com/blogs/compute/use-amazon-ec2-for-cost-efficient-cloud-gaming-with-pay-as-you-go-pricing/).
 
