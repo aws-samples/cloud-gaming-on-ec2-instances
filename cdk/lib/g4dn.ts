@@ -6,6 +6,7 @@ export interface G4DNConfig extends BaseConfig {
     gridSwCertUrl: string;
 }
 
+
 export class G4DNStack extends BaseEc2Stack {
     protected props: G4DNConfig;
 
@@ -14,7 +15,7 @@ export class G4DNStack extends BaseEc2Stack {
     }
 
     protected getInstanceType() {
-        return ec2.InstanceType.of(ec2.InstanceClass.G4DN, ec2.InstanceSize.XLARGE);
+        return ec2.InstanceType.of(ec2.InstanceClass.G4DN, this.props.instanceSize);
     }
 
     protected getUserdata() {
