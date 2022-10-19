@@ -19,7 +19,7 @@ This repository contains the full source code that is used in the blog post [Use
 #### 1. Make sure you completed the prerequisites above and cloned this repo.
 
 ```
-git clone git@github.com:aws-samples/cloud-gaming-on-ec2-instances
+ git clone https://github.com/aws-samples/cloud-gaming-on-ec2-instances.git
 ```
 
 #### 2. Open the repository in your preferred IDE and familiarize yourself with the structure of the project.
