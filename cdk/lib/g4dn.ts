@@ -1,6 +1,6 @@
-import * as cdk from "@aws-cdk/core";
-import * as ec2 from "@aws-cdk/aws-ec2";
 import { BaseConfig, BaseEc2Stack } from "./base";
+import { Construct } from "constructs";
+import { InstanceClass, InstanceType, UserData } from "aws-cdk-lib/aws-ec2";
 
 export interface G4DNConfig extends BaseConfig {
     gridSwCertUrl: string;
@@ -10,16 +10,16 @@ export interface G4DNConfig extends BaseConfig {
 export class G4DNStack extends BaseEc2Stack {
     protected props: G4DNConfig;
 
-    constructor(scope: cdk.Construct, id: string, props: G4DNConfig) {
+    constructor(scope: Construct, id: string, props: G4DNConfig) {
         super(scope, id, props);
     }
 
     protected getInstanceType() {
-        return ec2.InstanceType.of(ec2.InstanceClass.G4DN, this.props.instanceSize);
+        return InstanceType.of(InstanceClass.G4DN, this.props.instanceSize);
     }
 
     protected getUserdata() {
-        const userData = ec2.UserData.forWindows();
+        const userData = UserData.forWindows();
         userData.addCommands(
             `$NiceDCVDisplayDrivers = "${this.props.niceDCVDisplayDriverUrl}"`,
             `$NiceDCVServer = "${this.props.niceDCVServerUrl}"`,
@@ -38,7 +38,7 @@ export class G4DNStack extends BaseEc2Stack {
             'Expand-Archive $LocalFilePath -DestinationPath $InstallationFilesFolder\\1_NVIDIA_drivers',
             'Invoke-WebRequest -Uri $NiceDCVServer -OutFile $InstallationFilesFolder\\2_NICEDCV-Server.msi',
             'Invoke-WebRequest -Uri $NiceDCVDisplayDrivers -OutFile $InstallationFilesFolder\\3_NICEDCV-DisplayDriver.msi',
-            `'reg add "HKLM\\SOFTWARE\\NVIDIA Corporation\\Global" /v vGamingMarketplace /t REG_DWORD /d 2' >> $InstallationFilesFolder\\4_update_registry.ps1`,
+            `'reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\nvlddmkm\\Global" /v vGamingMarketplace /t REG_DWORD /d 2' >> $InstallationFilesFolder\\4_update_registry.ps1`,
             'Remove-Item $LocalTempPath -Recurse',
             `Invoke-WebRequest -Uri "${this.props.gridSwCertUrl}" -OutFile "$Env:PUBLIC\\Documents\\GridSwCert.txt"`,
             `'' >> $InstallationFilesFolder\\OK`

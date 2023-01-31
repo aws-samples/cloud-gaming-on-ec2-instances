@@ -1,6 +1,6 @@
-import * as cdk from "@aws-cdk/core";
-import * as ec2 from "@aws-cdk/aws-ec2";
 import { BaseConfig, BaseEc2Stack } from "./base";
+import { Construct } from "constructs";
+import { InstanceType, UserData } from "aws-cdk-lib/aws-ec2";
 
 // tslint:disable-next-line:no-empty-interface
 export interface G4ADConfig extends BaseConfig {
@@ -10,12 +10,12 @@ export interface G4ADConfig extends BaseConfig {
 export class G4ADStack extends BaseEc2Stack {
     protected props: G4ADConfig;
 
-    constructor(scope: cdk.Construct, id: string, props: G4ADConfig) {
+    constructor(scope: Construct, id: string, props: G4ADConfig) {
         super(scope, id, props);
     }
 
     protected getUserdata() {
-        const userData = ec2.UserData.forWindows();
+        const userData = UserData.forWindows();
         userData.addCommands(
             `$NiceDCVDisplayDrivers = "${this.props.niceDCVDisplayDriverUrl}"`,
             `$NiceDCVServer = "${this.props.niceDCVServerUrl}"`,
@@ -41,6 +41,6 @@ export class G4ADStack extends BaseEc2Stack {
     }
 
     protected getInstanceType() {
-        return new ec2.InstanceType(`g4ad.${this.props.instanceSize}`);
+        return new InstanceType(`g4ad.${this.props.instanceSize}`);
     }
 }
