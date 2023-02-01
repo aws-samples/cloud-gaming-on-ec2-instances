@@ -3,6 +3,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import { G4DNStack } from '../lib/g4dn';
 import { G4ADStack } from '../lib/g4ad';
+import { G5Stack } from '../lib/g5';
 
 const app = new cdk.App();
 
@@ -70,5 +71,24 @@ new G4ADStack(app, 'CloudGamingOnG4AD', {
   },
   tags: {
     project: 'CloudGamingG4AD',
+  },
+});
+
+new G5Stack(app, 'CloudGamingOnG5', {
+  niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
+  niceDCVServerUrl: NICE_DCV_SERVER_URL,
+  instanceSize: ec2.InstanceSize.XLARGE2,
+  gridSwCertUrl: GRID_SW_CERT_URL,
+  sshKeyName: SSH_KEY_NAME,
+  volumeSizeGiB: VOLUME_SIZE_GIB,
+  openPorts: OPEN_PORTS,
+  associateElasticIp: true,
+  allowInboundCidr: ALLOW_INBOUND_CIDR,
+  env: {
+    account: '964074702475',
+    region: 'eu-west-1',
+  },
+  tags: {
+    project: 'CloudGamingOnG5',
   },
 });
