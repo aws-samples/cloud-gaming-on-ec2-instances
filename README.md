@@ -1,6 +1,6 @@
-# Discover sensitive data in AWS CodeCommit
+# Use Amazon EC2 for cost-efficient cloud gaming with pay-as-you-go pricing
 
-This repository contains the full source code that is used in the blog post [<TODO>](XXX).
+This repository contains the full source code that is used in the blog post [Use Amazon EC2 for cost-efficient cloud gaming with pay-as-you-go pricing](https://aws.amazon.com/blogs/compute/use-amazon-ec2-for-cost-efficient-cloud-gaming-with-pay-as-you-go-pricing/).
 
 ## Solution Overview
 
@@ -76,7 +76,7 @@ cdk deploy <StackName>
 
 #### 8. Create your personal gaming AMI
 
-Follow the instructions in the associated blog post [<ADD AFTER PUBLISHED](XXXX). 
+Follow the instructions in the associated blog post [Use Amazon EC2 for cost-efficient cloud gaming with pay-as-you-go pricing](https://aws.amazon.com/blogs/compute/use-amazon-ec2-for-cost-efficient-cloud-gaming-with-pay-as-you-go-pricing/). 
 
 
 ## Useful CLI commands
