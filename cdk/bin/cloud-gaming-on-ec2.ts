@@ -85,8 +85,8 @@ new G5Stack(app, 'CloudGamingOnG5', {
   associateElasticIp: true,
   allowInboundCidr: ALLOW_INBOUND_CIDR,
   env: {
-    account: '964074702475',
-    region: 'eu-west-1',
+    account: ACCOUNT_ID,
+    region: REGION,
   },
   tags: {
     project: 'CloudGamingOnG5',
