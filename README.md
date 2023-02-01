@@ -53,31 +53,24 @@ Before you can deploy the stack, you need to review the config. Navigate to `cdk
 - `gridSwCertUrl`: (Only for g4dn instances) The NVIDIA driver requires a certificate file which can be downloaded from Amazon S3. You can leave this unless the link is broken or you want to use a different certificate.
 - `tags`: A list of resource tags that will be added to every taggable resource in the stack.
 
-
-#### 5. Transpile TypeScript to JavaScript
+#### 5. Deploy your application
 
 The CDK code is written in TypeScript, an extension to JavaScript that adds static types and other useful features.
 
-To run the CDK code, we need to transpile TypeScript into JavaScript by running `npm run build` in the `cdk` folder. This will transpile the code once - if you want to keep watching the code for changes and automatically transpile after a change, run `npm run watch`
-
-#### 6. Deploy your application
-
-Navigate to the `cdk` folder and run the following commands
+To run the CDK code, navigate to the `cdk` folder and run the following commands
 
 ```
-cdk synth 
 cdk bootstrap
 cdk deploy <StackName>
 ```
 
-`cdk synth` will synthesize a CloudFormation template from your CDK code. After bootstrapping the required resources for the CDK with `cdk bootstrap` you can then deploy the template with `cdk deploy <StackName>`.
+After bootstrapping the required resources for the CDK with `cdk bootstrap` you can then deploy the template with `cdk deploy <StackName>`. Bootstrapping is only require once.
 
-`<StackName>` can be either `CloudGamingOnG4DN` or `CloudGamingOnG4AD`, depending on the instance type you want to use.
+`<StackName>` can be either `CloudGamingOnG4DN`, `CloudGamingOnG4AD` or `CloudGamingOnG5`, depending on the instance type you want to use.
 
-#### 8. Create your personal gaming AMI
+#### 6. Create your personal gaming AMI
 
-Follow the instructions in the associated blog post [Use Amazon EC2 for cost-efficient cloud gaming with pay-as-you-go pricing](https://aws.amazon.com/blogs/compute/use-amazon-ec2-for-cost-efficient-cloud-gaming-with-pay-as-you-go-pricing/). 
-
+Follow the instructions in the associated blog post [Use Amazon EC2 for cost-efficient cloud gaming with pay-as-you-go pricing](https://aws.amazon.com/blogs/compute/use-amazon-ec2-for-cost-efficient-cloud-gaming-with-pay-as-you-go-pricing/).
 
 ## Useful CLI commands
 
