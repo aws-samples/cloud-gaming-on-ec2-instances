@@ -82,7 +82,7 @@ export abstract class BaseEc2Stack extends Stack {
       vpcSubnets: vpc.selectSubnets({ subnetType: SubnetType.PUBLIC }),
       keyName: props.sshKeyName,
       userData: this.getUserdata(),
-      machineImage: MachineImage.latestWindows(WindowsVersion.WINDOWS_SERVER_2019_ENGLISH_FULL_BASE),
+      machineImage: MachineImage.latestWindows(WindowsVersion.WINDOWS_SERVER_2022_ENGLISH_FULL_BASE),
       blockDevices: [
         {
           deviceName: '/dev/sda1',
