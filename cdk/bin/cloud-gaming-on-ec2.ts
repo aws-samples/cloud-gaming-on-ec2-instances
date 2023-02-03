@@ -15,12 +15,12 @@ const CHROME_URL = "https://dl.google.com/tag/s/appname=Google%20Chrome&needsadm
 const SEVEN_URL = "https://www.7-zip.org/a/7z2201-x64.msi";
 
 
-const SSH_KEY_NAME = "London" ;//"CHANGE_ME";
+const SSH_KEY_NAME = "CHANGE_ME";
 const VOLUME_SIZE_GIB = 300;
 const OPEN_PORTS = [3389, 8443];
 const ALLOW_INBOUND_CIDR = "0.0.0.0/0";
-const ACCOUNT_ID = "844633438632"; //"CHANGE_ME";
-const REGION = "eu-west-2";
+const ACCOUNT_ID = "CHANGE_ME";
+const REGION = "eu-west-1";
 
 new G4DNStack(app, "CloudGraphicsOnG4DN", {
     niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
