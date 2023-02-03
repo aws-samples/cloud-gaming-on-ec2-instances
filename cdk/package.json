@@ -2,16 +2,16 @@
   "name": "cloud-gaming-on-ec2-instances",
   "version": "1.0.0",
   "scripts": {
-    "build": "../node_modules/.bin/tsc",
-    "watch": "../node_modules/.bin/tsc -w",
-    "cdk": "../node_modules/.bin/cdk"
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk"
   },
   "devDependencies": {
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
     "@aws-cdk/aws-amplify-alpha": "^2.54.0-alpha.0",
-    "aws-cdk": "2.62.2",
+    "aws-cdk": "^2.62.2",
     "eslint": "8.22.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
@@ -19,7 +19,7 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
-    "aws-cdk-lib": "2.62.2",
+    "aws-cdk-lib": "^2.62.2",
     "constructs": "^10.1.101",
     "source-map-support": "^0.5.21"
   }

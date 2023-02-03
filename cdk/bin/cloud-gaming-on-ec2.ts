@@ -1,94 +1,89 @@
-import 'source-map-support/register';
-import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import { G4DNStack } from '../lib/g4dn';
-import { G4ADStack } from '../lib/g4ad';
-import { G5Stack } from '../lib/g5';
+import * as cdk from "aws-cdk-lib";
+import "source-map-support/register";
+import { G4DNStack } from "../lib/g4dn";
+import { G4ADStack } from "../lib/g4ad";
+import { G5Stack } from "../lib/g5";
+
 
 const app = new cdk.App();
 
-const NICE_DCV_DISPLAY_DRIVER_URL = 'https://d1uj6qtbmh3dt5.cloudfront.net/Drivers/nice-dcv-virtual-display-x64-Release-58.msi';
-const NICE_DCV_SERVER_URL = 'https://d1uj6qtbmh3dt5.cloudfront.net/2022.2/Servers/nice-dcv-server-x64-Release-2022.2-14357.msi';
-const GRID_SW_CERT_URL = 'https://nvidia-gaming.s3.amazonaws.com/GridSwCert-Archive/GridSwCertWindows_2021_10_2.cert';
+const NICE_DCV_DISPLAY_DRIVER_URL = "https://d1uj6qtbmh3dt5.cloudfront.net/Drivers/nice-dcv-virtual-display-x64-Release-58.msi";
+const NICE_DCV_SERVER_URL = "https://d1uj6qtbmh3dt5.cloudfront.net/2022.2/Servers/nice-dcv-server-x64-Release-2022.2-14175.msi";
+const GRID_SW_CERT_URL = "https://nvidia-gaming.s3.amazonaws.com/GridSwCert-Archive/GridSwCertWindows_2021_10_2.cert";
+const CHROME_URL = "https://dl.google.com/tag/s/appname=Google%20Chrome&needsadmin=true&ap=x64-stable-statsdef_0&brand=GCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi";
+const SEVEN_URL = "https://www.7-zip.org/a/7z2201-x64.msi";
 
-const SSH_KEY_NAME = 'GamingOnEc2';
+
+const SSH_KEY_NAME = "London" ;//"CHANGE_ME";
 const VOLUME_SIZE_GIB = 300;
 const OPEN_PORTS = [3389, 8443];
-const ALLOW_INBOUND_CIDR = '0.0.0.0/0';
-const ACCOUNT_ID = 'CHANGE_ME';
-const REGION = 'eu-west-1';
+const ALLOW_INBOUND_CIDR = "0.0.0.0/0";
+const ACCOUNT_ID = "844633438632"; //"CHANGE_ME";
+const REGION = "eu-west-2";
 
-new G4DNStack(app, 'CloudGamingOnG4DN', {
-  niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
-  niceDCVServerUrl: NICE_DCV_SERVER_URL,
-  gridSwCertUrl: GRID_SW_CERT_URL,
-  instanceSize: ec2.InstanceSize.XLARGE,
-  sshKeyName: SSH_KEY_NAME,
-  volumeSizeGiB: VOLUME_SIZE_GIB,
-  openPorts: OPEN_PORTS,
-  associateElasticIp: true,
-  allowInboundCidr: ALLOW_INBOUND_CIDR,
-  env: {
-    account: ACCOUNT_ID,
-    region: REGION,
-  },
-  tags: {
-    project: 'CloudGamingG4DN',
-  },
+new G4DNStack(app, "CloudGraphicsOnG4DN", {
+    niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
+    niceDCVServerUrl: NICE_DCV_SERVER_URL,
+    sevenzip: SEVEN_URL,
+    chromeUrl: CHROME_URL,
+    gpu: "NVIDIA",
+    gridSwCertUrl: GRID_SW_CERT_URL,
+    instanceSize: ec2.InstanceSize.XLARGE,
+    sshKeyName: SSH_KEY_NAME,
+    volumeSizeGiB: VOLUME_SIZE_GIB,
+    openPorts: OPEN_PORTS,
+    associateElasticIp: true,
+    allowInboundCidr: ALLOW_INBOUND_CIDR,
+    env: {
+        account: ACCOUNT_ID,
+        region: REGION
+    },
+    tags: {
+        "project": "CloudGraphicsG4DN"
+    }
 });
 
-new G4DNStack(app, 'CloudGamingOnG4DN-2xlarge', {
-  niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
-  niceDCVServerUrl: NICE_DCV_SERVER_URL,
-  gridSwCertUrl: GRID_SW_CERT_URL,
-  instanceSize: ec2.InstanceSize.XLARGE2,
-  sshKeyName: SSH_KEY_NAME,
-  volumeSizeGiB: VOLUME_SIZE_GIB,
-  openPorts: OPEN_PORTS,
-  associateElasticIp: true,
-  allowInboundCidr: ALLOW_INBOUND_CIDR,
-  env: {
-    account: ACCOUNT_ID,
-    region: REGION,
-  },
-  tags: {
-    project: 'CloudGamingG4DN',
-  },
+new G5Stack(app, "CloudGraphicsOnG5", {
+    niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
+    niceDCVServerUrl: NICE_DCV_SERVER_URL,
+    sevenzip: SEVEN_URL,
+    chromeUrl: CHROME_URL,
+    gpu: "NVIDIA",
+    gridSwCertUrl: GRID_SW_CERT_URL,
+    instanceSize: ec2.InstanceSize.XLARGE,
+    sshKeyName: SSH_KEY_NAME,
+    volumeSizeGiB: VOLUME_SIZE_GIB,
+    openPorts: OPEN_PORTS,
+    associateElasticIp: true,
+    allowInboundCidr: ALLOW_INBOUND_CIDR,
+    env: {
+        account: ACCOUNT_ID,
+        region: REGION
+    },
+    tags: {
+        "project": "CloudGraphicsOnG5"
+    }
 });
 
-new G4ADStack(app, 'CloudGamingOnG4AD', {
-  niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
-  niceDCVServerUrl: NICE_DCV_SERVER_URL,
-  instanceSize: ec2.InstanceSize.XLARGE4,
-  sshKeyName: SSH_KEY_NAME,
-  volumeSizeGiB: VOLUME_SIZE_GIB,
-  openPorts: OPEN_PORTS,
-  associateElasticIp: true,
-  allowInboundCidr: ALLOW_INBOUND_CIDR,
-  env: {
-    account: ACCOUNT_ID,
-    region: REGION,
-  },
-  tags: {
-    project: 'CloudGamingG4AD',
-  },
-});
-
-new G5Stack(app, 'CloudGamingOnG5', {
-  niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
-  niceDCVServerUrl: NICE_DCV_SERVER_URL,
-  instanceSize: ec2.InstanceSize.XLARGE2,
-  gridSwCertUrl: GRID_SW_CERT_URL,
-  sshKeyName: SSH_KEY_NAME,
-  volumeSizeGiB: VOLUME_SIZE_GIB,
-  openPorts: OPEN_PORTS,
-  associateElasticIp: true,
-  allowInboundCidr: ALLOW_INBOUND_CIDR,
-  env: {
-    account: ACCOUNT_ID,
-    region: REGION,
-  },
-  tags: {
-    project: 'CloudGamingOnG5',
-  },
+new G4ADStack(app, "CloudGraphicsOnG4AD", {
+    niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
+    niceDCVServerUrl: NICE_DCV_SERVER_URL,
+    chromeUrl: CHROME_URL,
+    gpu: "AMD",
+    sevenzip: SEVEN_URL,
+    gridSwCertUrl: GRID_SW_CERT_URL,
+    instanceSize: ec2.InstanceSize.XLARGE,
+    sshKeyName: SSH_KEY_NAME,
+    volumeSizeGiB: VOLUME_SIZE_GIB,
+    openPorts: OPEN_PORTS,
+    associateElasticIp: true,
+    allowInboundCidr: ALLOW_INBOUND_CIDR,
+    env: {
+        account: ACCOUNT_ID,
+        region: REGION
+    },
+    tags: {
+        "project": "CloudGraphicsG4AD"
+    }
 });
