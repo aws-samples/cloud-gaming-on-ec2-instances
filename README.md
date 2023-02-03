@@ -74,6 +74,8 @@ After bootstrapping the required resources for the CDK with `cdk bootstrap` you 
 
 `<StackName>` can be either `CloudGamingOnG4DN`, `CloudGamingOnG4AD` or `CloudGamingOnG5`, depending on the instance type you want to use.
 
+Stack completion time can take anyfrom `8-15` minutes.
+
 #### 6. Create your personal gaming AMI
 
 Follow the instructions in the associated blog post [Use Amazon EC2 for cost-efficient cloud gaming with pay-as-you-go pricing](https://aws.amazon.com/blogs/compute/use-amazon-ec2-for-cost-efficient-cloud-gaming-with-pay-as-you-go-pricing/).
@@ -115,7 +117,10 @@ Deploy all stacks at once, without rollback and dont require approval for IAM re
 ```
 cdk deploy --all --no-rollback --concurrency=3 --require-approval=never
 ```
-
+List all stacks
+```
+cdk list
+```
 
 ## Security
 
