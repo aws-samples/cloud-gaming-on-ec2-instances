@@ -13,7 +13,7 @@ export class G5Stack extends BaseEc2Stack {
         super(scope, id, props);
     }
 
-    protected getInstanceType() {
+    protected getInstanceType() { 
         return ec2.InstanceType.of(ec2.InstanceClass.G5, ec2.InstanceSize.XLARGE);
     }
 }

@@ -13,7 +13,7 @@ export class G4DNStack extends BaseEc2Stack {
         super(scope, id, props);
     }
 
-    protected getInstanceType() {
+    protected getInstanceType() { 
         return ec2.InstanceType.of(ec2.InstanceClass.G4DN, ec2.InstanceSize.XLARGE);
     }
 }

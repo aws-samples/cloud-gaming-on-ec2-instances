@@ -13,7 +13,7 @@ export class G4ADStack extends BaseEc2Stack {
         super(scope, id, props);
     }
 
-    protected getInstanceType() {
+    protected getInstanceType() { 
         return new ec2.InstanceType(`g4ad.${this.props.instanceSize}`);
     }
 }

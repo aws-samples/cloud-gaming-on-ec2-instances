@@ -8,15 +8,15 @@ import { G5Stack } from "../lib/g5";
 
 const app = new cdk.App();
 
-const NICE_DCV_DISPLAY_DRIVER_URL = "https://d1uj6qtbmh3dt5.cloudfront.net/Drivers/nice-dcv-virtual-display-x64-Release-58.msi";
-const NICE_DCV_SERVER_URL = "https://d1uj6qtbmh3dt5.cloudfront.net/2022.2/Servers/nice-dcv-server-x64-Release-2022.2-14175.msi";
+const NICE_DCV_DISPLAY_DRIVER_URL = "https://d1uj6qtbmh3dt5.cloudfront.net/Drivers/nice-dcv-virtual-display-x64-Release.msi";
+const NICE_DCV_SERVER_URL = "https://d1uj6qtbmh3dt5.cloudfront.net/2022.2/Servers/nice-dcv-server-x64-Release.msi";
 const GRID_SW_CERT_URL = "https://nvidia-gaming.s3.amazonaws.com/GridSwCert-Archive/GridSwCertWindows_2021_10_2.cert";
 const CHROME_URL = "https://dl.google.com/tag/s/appname=Google%20Chrome&needsadmin=true&ap=x64-stable-statsdef_0&brand=GCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi";
 const SEVEN_URL = "https://www.7-zip.org/a/7z2201-x64.msi";
 
 
 const SSH_KEY_NAME = "CHANGE_ME";
-const VOLUME_SIZE_GIB = 300;
+const VOLUME_SIZE_GIB = 200;
 const OPEN_PORTS = [3389, 8443];
 const ALLOW_INBOUND_CIDR = "0.0.0.0/0";
 const ACCOUNT_ID = "CHANGE_ME";
