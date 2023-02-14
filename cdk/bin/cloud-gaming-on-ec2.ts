@@ -62,7 +62,7 @@ new G5Stack(app, "CloudGraphicsOnG5", {
         region: REGION
     },
     tags: {
-        "project": "CloudGraphicsOnOnG5"
+        "project": "CloudGraphicsOnG5"
     }
 });
 
