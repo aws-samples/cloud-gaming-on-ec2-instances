@@ -40,7 +40,7 @@ new G4DNStack(app, "CloudGraphicsOnG4DN", {
         region: REGION
     },
     tags: {
-        "project": "CloudGraphicsG4DN"
+        "project": "CloudGraphicsOnG4DN"
     }
 });
 
@@ -62,7 +62,7 @@ new G5Stack(app, "CloudGraphicsOnG5", {
         region: REGION
     },
     tags: {
-        "project": "CloudGraphicsOnG5"
+        "project": "CloudGraphicsOnOnG5"
     }
 });
 
@@ -84,6 +84,6 @@ new G4ADStack(app, "CloudGraphicsOnG4AD", {
         region: REGION
     },
     tags: {
-        "project": "CloudGraphicsG4AD"
+        "project": "CloudGraphicsOnG4AD"
     }
 });

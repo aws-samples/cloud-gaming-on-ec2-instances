@@ -1,6 +1,7 @@
 /* tslint:disable:no-submodule-imports quotemark no-unused-expression */
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import { Stack, CfnElement } from 'aws-cdk-lib';
 import { Construct } from "constructs";
 import * as cdk from "aws-cdk-lib";
@@ -55,11 +56,14 @@ export abstract class BaseEc2Stack extends cdk.Stack {
 
         const s3Read = new Role(this, `${id}S3Read`, {
             roleName: `${id}.GamingDriverS3Access`,
-            assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
-            managedPolicies: [
-                ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess')
-            ],
+            assumedBy: new ServicePrincipal('ec2.amazonaws.com')
         });
+
+
+        s3Read.addToPolicy(new iam.PolicyStatement({
+            resources: ['arn:aws:s3:::dcv-license.'+ this.region +'/*','arn:aws:s3:::nvidia-gaming/*','arn:aws:s3:::dcv-license.'+ this.region,'arn:aws:s3:::nvidia-gaming', 'arn:aws:s3:::ec2-amd-windows-drivers','arn:aws:s3:::ec2-amd-windows-drivers/*', ],
+            actions: ['s3:GetObject','s3:ListBucket'],
+          }));
 
         const launchTemplate = new ec2.CfnLaunchTemplate(this, "GamingLaunchTemplate", {
             launchTemplateData: {
