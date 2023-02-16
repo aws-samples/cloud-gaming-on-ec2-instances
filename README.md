@@ -74,7 +74,22 @@ After bootstrapping the required resources for the CDK with `cdk bootstrap` you 
 
 `<StackName>` can be either `CloudGamingOnG4DN`, `CloudGamingOnG4AD` or `CloudGamingOnG5`, depending on the instance type you want to use.
 
-Stack completion time can take anyfrom `8-15` minutes.
+The following table gives an overview over the expected graphics performance, expressed as 3DMark Time Spy scores.
+
+| Instance Type | 3DMark Score | On-demand Price (us-east-1, USD, 02/23) | Price-performance (3DMark points / $) |
+|--------------|--------------|-----------------------------------------|---------------------------------------|
+| g4dn.xlarge  | 4300         | $0.71                                   | 6056                                  |
+| g4dn.2xlarge | 4800         | $1.12                                   | 4286                                  |
+| g4dn.4xlarge | 6000         | $1.94                                   | 3093                                  |
+| g4ad.xlarge  | 5100         | $0.56                                   | 9107                                  |
+| g4ad.2xlarge | 6600         | $0.91                                   | 7253                                  |
+| g4ad.4xlarge | 7600         | $1.60                                   | 4750                                  |
+| g5.xlarge    | 6800         | $1.19                                   | 5714                                  |
+| g5.2xlarge   | 10200        | $1.58                                   | 6456                                  |
+| g5.4xlarge   | 13000        | $2.36                                   | 5508                                  |
+
+
+Stack completion usually takes `8-15` minutes.
 
 #### 6. Create your personal gaming AMI
 
