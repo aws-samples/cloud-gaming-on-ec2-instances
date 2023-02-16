@@ -17,6 +17,9 @@
     "rules": {
         "no-new": "off",
         "max-classes-per-file": "off",
+        "no-useless-escape": "off",
+        "no-useless-constructor": "off",
+        "no-template-curly-in-string": "off",
         "import/extensions": "off",
         "import/no-extraneous-dependencies":  "off",
         "import/prefer-default-export": "off",
