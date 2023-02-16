@@ -47,16 +47,16 @@ Before you can deploy the stack, you need to review the config. Navigate to `cdk
 - `ACCOUNT`: The account id you want to deploy the stack in
 - `REGION`: The region you want to deploy the stack in
 - `NICE_DCV_DISPLAY_DRIVER_URL`: The download URL of the NICE DCV Virtual Display Driver for EC2. You can leave this unless the link is broken or you want to use a different version.
- - `NICE_DCV_SERVER_URL`: The download URL of the NICE DCV 2021.0 Server. You can leave this unless the link is broken or you want to use a different version.
+- `NICE_DCV_SERVER_URL`: The download URL of the NICE DCV Server. You can leave this unless the link is broken or you want to use a different version.
 - `InstanceSize`: Sets the size of the EC2 Instance. Defaults to `g5.xlarge`, `g4dn.xlarge`, and `g4ad.4xlarge` respectively.
 - `associateElasticIp`: Controls if an Elastic IP address will be created and added to the EC2 instance.
 - `SSH_KEY_NAME`: The name of the EC2 key pair you will use to connect to the instance. Make sure to have access to the respective .pem file.
 - `VOLUME_SIZE_GIB`: The size of the root EBS volume. Around 20 GB will be used for the Windows installation, the rest will be available for your software. Note: Some EC2 Instance Types include instance store which can be initalized. 
-- `OPEN_PORTS`: Access from these ports will be allowed. Per default this will allow access for RDP (3389) and NICE DCV (8443)
+- `OPEN_PORTS`: Access from these ports will be allowed. Per default this will only allow access for NICE DCV on port 8443
 - `ALLOW_INBOUND_CIDR`: Access from this CIDR range will be allowed. Per default this will allow access from /0, but I recommend to restrict this to your IP address only.
 - `GRID_SW_CERT_URL`: (Only for g4dn/g5 instances) The NVIDIA driver requires a certificate file which can be downloaded from Amazon S3. You can leave this unless the link is broken or you want to use a different certificate.
 - `tags`: A list of resource tags that will be added to every taggable resource in the stack.
-- `SEVEN_URL`: Update to the latest 7zip .msi version as it is required for the automated NVIDIA driver install. 
+- `SEVEN_ZIP_URL`: Update to the latest 7zip .msi version as it is required for the automated NVIDIA driver install. 
 - `CHROME_URL`: Installs Google Chrome Enterprise x64.
 
 #### 5. Deploy your application
