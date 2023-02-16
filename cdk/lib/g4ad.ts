@@ -16,4 +16,8 @@ export class G4ADStack extends BaseEc2Stack {
   protected getInstanceType() {
     return ec2.InstanceType.of(ec2.InstanceClass.G4AD, this.props.instanceSize);
   }
+
+  protected getGpuType(): string {
+    return 'AMD';
+  }
 }

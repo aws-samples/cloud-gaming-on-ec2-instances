@@ -16,4 +16,8 @@ export class G5Stack extends BaseEc2Stack {
   protected getInstanceType() {
     return ec2.InstanceType.of(ec2.InstanceClass.G5, this.props.instanceSize);
   }
+
+  protected getGpuType(): string {
+    return 'NVIDIA';
+  }
 }

@@ -11,7 +11,7 @@ const NICE_DCV_DISPLAY_DRIVER_URL = 'https://d1uj6qtbmh3dt5.cloudfront.net/nice-
 const NICE_DCV_SERVER_URL = 'https://d1uj6qtbmh3dt5.cloudfront.net/nice-dcv-server-x64-Release.msi';
 const GRID_SW_CERT_URL = 'https://nvidia-gaming.s3.amazonaws.com/GridSwCert-Archive/GridSwCertWindows_2021_10_2.cert';
 const CHROME_URL = 'https://dl.google.com/tag/s/appname=Google%20Chrome&needsadmin=true&ap=x64-stable-statsdef_0&brand=GCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi';
-const SEVEN_URL = 'https://www.7-zip.org/a/7z2201-x64.msi';
+const SEVEN_ZIP_URL = 'https://www.7-zip.org/a/7z2201-x64.msi';
 
 const SSH_KEY_NAME = 'CHANGE_ME';
 const VOLUME_SIZE_GIB = 200;
@@ -23,9 +23,8 @@ const REGION = 'eu-west-1';
 new G4DNStack(app, 'CloudGraphicsOnG4DN', {
   niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
   niceDCVServerUrl: NICE_DCV_SERVER_URL,
-  sevenzip: SEVEN_URL,
+  sevenZipUrl: SEVEN_ZIP_URL,
   chromeUrl: CHROME_URL,
-  gpu: 'NVIDIA',
   gridSwCertUrl: GRID_SW_CERT_URL,
   instanceSize: ec2.InstanceSize.XLARGE,
   sshKeyName: SSH_KEY_NAME,
@@ -45,9 +44,8 @@ new G4DNStack(app, 'CloudGraphicsOnG4DN', {
 new G5Stack(app, 'CloudGraphicsOnG5', {
   niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
   niceDCVServerUrl: NICE_DCV_SERVER_URL,
-  sevenzip: SEVEN_URL,
+  sevenZipUrl: SEVEN_ZIP_URL,
   chromeUrl: CHROME_URL,
-  gpu: 'NVIDIA',
   gridSwCertUrl: GRID_SW_CERT_URL,
   instanceSize: ec2.InstanceSize.XLARGE,
   sshKeyName: SSH_KEY_NAME,
@@ -68,8 +66,7 @@ new G4ADStack(app, 'CloudGraphicsOnG4AD', {
   niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
   niceDCVServerUrl: NICE_DCV_SERVER_URL,
   chromeUrl: CHROME_URL,
-  gpu: 'AMD',
-  sevenzip: SEVEN_URL,
+  sevenZipUrl: SEVEN_ZIP_URL,
   gridSwCertUrl: GRID_SW_CERT_URL,
   instanceSize: ec2.InstanceSize.XLARGE,
   sshKeyName: SSH_KEY_NAME,

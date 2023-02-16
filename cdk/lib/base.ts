@@ -12,8 +12,7 @@ export interface BaseConfig extends cdk.StackProps {
     volumeSizeGiB: number;
     niceDCVDisplayDriverUrl: string;
     niceDCVServerUrl: string;
-    gpu: string;
-    sevenzip: string,
+    sevenZipUrl: string,
     chromeUrl: string,
     gridSwCertUrl: string,
     openPorts: number[];
@@ -100,7 +99,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
         configs: {
           helpersPreinstall: new ec2.InitConfig([
             // Installes 7zip, needed for Nvidia install, and Chrome Enterprise.
-            ec2.InitPackage.msi(this.props.sevenzip, { key: '1-Install-SevenZip' }),
+            ec2.InitPackage.msi(this.props.sevenZipUrl, { key: '1-Install-SevenZip' }),
             ec2.InitPackage.msi(this.props.chromeUrl, { key: '2-Install-Chrome-Enterprise-x64' }),
           ]),
           nvidiadcv: new ec2.InitConfig([
@@ -139,7 +138,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
       }),
       initOptions: {
         // Optional, which configsets to activate (['default'] by default)
-        configSets: [this.props.gpu],
+        configSets: [this.getGpuType()],
 
         // Optional, how long the installation is expected to take (5 minutes by default)
         timeout: cdk.Duration.minutes(15),
@@ -172,4 +171,6 @@ export abstract class BaseEc2Stack extends cdk.Stack {
   }
 
     protected abstract getInstanceType(): ec2.InstanceType;
+
+    protected abstract getGpuType(): string;
 }
