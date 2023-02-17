@@ -47,16 +47,16 @@ Before you can deploy the stack, you need to review the config. Navigate to `cdk
 - `ACCOUNT`: The account id you want to deploy the stack in
 - `REGION`: The region you want to deploy the stack in
 - `NICE_DCV_DISPLAY_DRIVER_URL`: The download URL of the NICE DCV Virtual Display Driver for EC2. You can leave this unless the link is broken or you want to use a different version.
- - `NICE_DCV_SERVER_URL`: The download URL of the NICE DCV 2021.0 Server. You can leave this unless the link is broken or you want to use a different version.
+- `NICE_DCV_SERVER_URL`: The download URL of the NICE DCV Server. You can leave this unless the link is broken or you want to use a different version.
 - `InstanceSize`: Sets the size of the EC2 Instance. Defaults to `g5.xlarge`, `g4dn.xlarge`, and `g4ad.4xlarge` respectively.
 - `associateElasticIp`: Controls if an Elastic IP address will be created and added to the EC2 instance.
 - `SSH_KEY_NAME`: The name of the EC2 key pair you will use to connect to the instance. Make sure to have access to the respective .pem file.
 - `VOLUME_SIZE_GIB`: The size of the root EBS volume. Around 20 GB will be used for the Windows installation, the rest will be available for your software. Note: Some EC2 Instance Types include instance store which can be initalized. 
-- `OPEN_PORTS`: Access from these ports will be allowed. Per default this will allow access for RDP (3389) and NICE DCV (8443)
+- `OPEN_PORTS`: Access from these ports will be allowed. Per default this will only allow access for NICE DCV on port 8443
 - `ALLOW_INBOUND_CIDR`: Access from this CIDR range will be allowed. Per default this will allow access from /0, but I recommend to restrict this to your IP address only.
 - `GRID_SW_CERT_URL`: (Only for g4dn/g5 instances) The NVIDIA driver requires a certificate file which can be downloaded from Amazon S3. You can leave this unless the link is broken or you want to use a different certificate.
 - `tags`: A list of resource tags that will be added to every taggable resource in the stack.
-- `SEVEN_URL`: Update to the latest 7zip .msi version as it is required for the automated NVIDIA driver install. 
+- `SEVEN_ZIP_URL`: Update to the latest 7zip .msi version as it is required for the automated NVIDIA driver install. 
 - `CHROME_URL`: Installs Google Chrome Enterprise x64.
 
 #### 5. Deploy your application
@@ -74,7 +74,22 @@ After bootstrapping the required resources for the CDK with `cdk bootstrap` you 
 
 `<StackName>` can be either `CloudGamingOnG4DN`, `CloudGamingOnG4AD` or `CloudGamingOnG5`, depending on the instance type you want to use.
 
-Stack completion time can take anyfrom `8-15` minutes.
+The following table gives an overview over the expected graphics performance, expressed as 3DMark Time Spy scores.
+
+| Instance Type | 3DMark Score | On-demand Price (us-east-1, USD, 02/23) | Price-performance (3DMark points / $) |
+|--------------|--------------|-----------------------------------------|---------------------------------------|
+| g4dn.xlarge  | 4300         | $0.71                                   | 6056                                  |
+| g4dn.2xlarge | 4800         | $1.12                                   | 4286                                  |
+| g4dn.4xlarge | 6000         | $1.94                                   | 3093                                  |
+| g4ad.xlarge  | 5100         | $0.56                                   | 9107                                  |
+| g4ad.2xlarge | 6600         | $0.91                                   | 7253                                  |
+| g4ad.4xlarge | 7600         | $1.60                                   | 4750                                  |
+| g5.xlarge    | 6800         | $1.19                                   | 5714                                  |
+| g5.2xlarge   | 10200        | $1.58                                   | 6456                                  |
+| g5.4xlarge   | 13000        | $2.36                                   | 5508                                  |
+
+
+Stack completion usually takes `8-15` minutes.
 
 #### 6. Create your personal gaming AMI
 
