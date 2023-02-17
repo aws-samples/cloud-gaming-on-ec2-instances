@@ -8,7 +8,7 @@ import { InstanceSize } from 'aws-cdk-lib/aws-ec2/lib/instance-types';
 
 export interface BaseConfig extends cdk.StackProps {
     instanceSize: InstanceSize;
-    sshKeyName: string;
+    ec2KeyName: string;
     volumeSizeGiB: number;
     niceDCVDisplayDriverUrl: string;
     niceDCVServerUrl: string;
@@ -41,8 +41,8 @@ export abstract class BaseEc2Stack extends cdk.Stack {
 
     const securityGroup = new ec2.SecurityGroup(this, 'SecurityGroup', {
       vpc,
-      description: 'Allow RDP and NICE DCV access',
-      securityGroupName: 'InboundAccessFromRdpDcv',
+      description: 'NICE DCV access',
+      securityGroupName: 'InboundAccessFromDcv',
     });
 
     // eslint-disable-next-line no-restricted-syntax
@@ -62,7 +62,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
 
     const launchTemplate = new ec2.CfnLaunchTemplate(this, 'GamingLaunchTemplate', {
       launchTemplateData: {
-        keyName: props.sshKeyName,
+        keyName: props.ec2KeyName,
         instanceType: this.getInstanceType().toString(),
         networkInterfaces: [{
           subnetId: vpc.selectSubnets({ subnetType: ec2.SubnetType.PUBLIC }).subnetIds[0],
@@ -79,7 +79,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
       vpc,
       securityGroup,
       vpcSubnets: vpc.selectSubnets({ subnetType: ec2.SubnetType.PUBLIC }),
-      keyName: props.sshKeyName,
+      keyName: props.ec2KeyName,
       machineImage: ec2.MachineImage.latestWindows(ec2.WindowsVersion.WINDOWS_SERVER_2022_ENGLISH_FULL_BASE),
       blockDevices: [
         {
@@ -126,7 +126,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
           amd: new ec2.InitConfig([
             // Command to download and install latest AMD drivers.
             ec2.InitCommand.shellCommand('powershell.exe -Command "$InstallationFilesFolder = \'C:\\Users\\Administrator\\Desktop\\InstallationFiles\'; $Bucket = \'ec2-amd-windows-drivers\'; $KeyPrefix = \'latest\'; $Objects = Get-S3Object -BucketName $Bucket -KeyPrefix $KeyPrefix -Region us-east-1; foreach ($Object in $Objects) { $LocalFileName = $Object.Key; if ($LocalFileName -ne \'\' -and $Object.Size -ne 0) { $LocalFilePath = Join-Path $InstallationFilesFolder\\1_AMD_driver $LocalFileName; Copy-S3Object -BucketName $Bucket -Key $Object.Key -LocalFile $LocalFilePath -Region us-east-1;  Expand-Archive $LocalFilePath -DestinationPath $InstallationFilesFolder\\1_AMD_driver } }"', { key: '5-Download-AMD-Drivers', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
-            ec2.InitCommand.shellCommand('pnputil /add-driver C:\\Users\\Administrator\\Desktop\\InstallationFiles\\1_AMD_driver\\Packages\\Drivers\\Display\\WT6A_INF\\*.inf /install', { key: '6-Install-AMD-Drivers', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
+            ec2.InitCommand.shellCommand('pnputil /add-driver C:\\Users\\Administrator\\Desktop\\InstallationFiles\\1_AMD_driver\\Packages\\Drivers\\Display\\WT6A_INF\\*.inf /install /reboot', { key: '6-Install-AMD-Drivers', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
           ]),
           reboot: new ec2.InitConfig([
             // Command to reboot instance and apply registry changes.
@@ -164,9 +164,9 @@ export abstract class BaseEc2Stack extends cdk.Stack {
       new cdk.CfnOutput(this, 'Public IP', { value: ec2Instance.instancePublicIp });
     }
 
-    new cdk.CfnOutput(this, 'Credentials', { value: `https://${this.region}.console.aws.amazon.com/ec2/v2/home?region=${this.region}#ConnectToInstance:instanceId=${ec2Instance.instanceId}` });
+    new cdk.CfnOutput(this, 'Credentials', { value: `https://${this.region}.console.aws.amazon.com/ec2/v2/home?region=${this.region}#GetWindowsPassword:instanceId=${ec2Instance.instanceId};previousPlace=ConnectToInstance` });
     new cdk.CfnOutput(this, 'InstanceId', { value: ec2Instance.instanceId });
-    new cdk.CfnOutput(this, 'KeyName', { value: props.sshKeyName });
+    new cdk.CfnOutput(this, 'KeyName', { value: props.ec2KeyName });
     new cdk.CfnOutput(this, 'LaunchTemplateId', { value: launchTemplate.launchTemplateName! });
   }
 
