@@ -13,9 +13,9 @@ const GRID_SW_CERT_URL = 'https://nvidia-gaming.s3.amazonaws.com/GridSwCert-Arch
 const CHROME_URL = 'https://dl.google.com/tag/s/appname=Google%20Chrome&needsadmin=true&ap=x64-stable-statsdef_0&brand=GCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi';
 const SEVEN_ZIP_URL = 'https://www.7-zip.org/a/7z2201-x64.msi';
 
-const SSH_KEY_NAME = 'CHANGE_ME';
+const EC2_KEYPAIR_NAME = 'CHANGE_ME';
 const VOLUME_SIZE_GIB = 200;
-const OPEN_PORTS = [3389, 8443];
+const OPEN_PORTS = [8443];
 const ALLOW_INBOUND_CIDR = '0.0.0.0/0';
 const ACCOUNT_ID = 'CHANGE_ME';
 const REGION = 'eu-west-1';
@@ -27,7 +27,7 @@ new G4DNStack(app, 'CloudGraphicsOnG4DN', {
   chromeUrl: CHROME_URL,
   gridSwCertUrl: GRID_SW_CERT_URL,
   instanceSize: ec2.InstanceSize.XLARGE,
-  sshKeyName: SSH_KEY_NAME,
+  ec2KeyName: EC2_KEYPAIR_NAME,
   volumeSizeGiB: VOLUME_SIZE_GIB,
   openPorts: OPEN_PORTS,
   associateElasticIp: true,
@@ -48,7 +48,7 @@ new G5Stack(app, 'CloudGraphicsOnG5', {
   chromeUrl: CHROME_URL,
   gridSwCertUrl: GRID_SW_CERT_URL,
   instanceSize: ec2.InstanceSize.XLARGE,
-  sshKeyName: SSH_KEY_NAME,
+  ec2KeyName: EC2_KEYPAIR_NAME,
   volumeSizeGiB: VOLUME_SIZE_GIB,
   openPorts: OPEN_PORTS,
   associateElasticIp: true,
@@ -69,7 +69,7 @@ new G4ADStack(app, 'CloudGraphicsOnG4AD', {
   sevenZipUrl: SEVEN_ZIP_URL,
   gridSwCertUrl: GRID_SW_CERT_URL,
   instanceSize: ec2.InstanceSize.XLARGE,
-  sshKeyName: SSH_KEY_NAME,
+  ec2KeyName: EC2_KEYPAIR_NAME,
   volumeSizeGiB: VOLUME_SIZE_GIB,
   openPorts: OPEN_PORTS,
   associateElasticIp: true,
