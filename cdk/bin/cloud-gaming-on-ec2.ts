@@ -13,12 +13,12 @@ const GRID_SW_CERT_URL = 'https://nvidia-gaming.s3.amazonaws.com/GridSwCert-Arch
 const CHROME_URL = 'https://dl.google.com/tag/s/appname=Google%20Chrome&needsadmin=true&ap=x64-stable-statsdef_0&brand=GCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi';
 const SEVEN_ZIP_URL = 'https://www.7-zip.org/a/7z2201-x64.msi';
 
-const EC2_KEYPAIR_NAME = 'London';
+const EC2_KEYPAIR_NAME = 'CHANGE_ME';
 const VOLUME_SIZE_GIB = 200;
 const OPEN_PORTS = [8443];
 const ALLOW_INBOUND_CIDR = '0.0.0.0/0';
-const ACCOUNT_ID = '844633438632';
-const REGION = 'eu-west-2';
+const ACCOUNT_ID = 'CHANGE_ME';
+const REGION = 'eu-west-1';
 
 new G4DNStack(app, 'CloudGraphicsOnG4DN', {
   niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
