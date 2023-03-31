@@ -44,7 +44,7 @@ Navigate into `cdk` folder it and run `npm install`
 
 Before you can deploy the stack, you need to review the config. Navigate to `cdk/bin/cloud-gaming-on-ec2.ts` and review / update the following parameters:
 
-- `ACCOUNT`: The account id you want to deploy the stack in
+- `ACCOUNT_ID`: The account id you want to deploy the stack in
 - `REGION`: The region you want to deploy the stack in
 - `NICE_DCV_DISPLAY_DRIVER_URL`: The download URL of the NICE DCV Virtual Display Driver for EC2. You can leave this unless the link is broken or you want to use a different version.
 - `NICE_DCV_SERVER_URL`: The download URL of the NICE DCV Server. You can leave this unless the link is broken or you want to use a different version.
@@ -72,7 +72,7 @@ cdk deploy <StackName>
 
 After bootstrapping the required resources for the CDK with `cdk bootstrap` you can then deploy the template with `cdk deploy <StackName>`. Bootstrapping is only require once.
 
-`<StackName>` can be either `CloudGamingOnG4DN`, `CloudGamingOnG4AD` or `CloudGamingOnG5`, depending on the instance type you want to use.
+`<StackName>` can be either `CloudGraphicsOnG4DN`, `CloudGraphicsOnG4AD` or `CloudGraphicsOnG5`, depending on the instance type you want to use.
 
 The following table gives an overview over the expected graphics performance, expressed as 3DMark Time Spy scores.
 
