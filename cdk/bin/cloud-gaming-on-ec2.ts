@@ -20,7 +20,7 @@ const ALLOW_INBOUND_CIDR = '0.0.0.0/0';
 const ACCOUNT_ID = 'CHANGE_ME';
 const REGION = 'eu-west-1';
 
-new G4DNStack(app, 'CloudGraphicsOnG4DN', {
+new G4DNStack(app, 'CloudGamingsOnG4DN', {
   niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
   niceDCVServerUrl: NICE_DCV_SERVER_URL,
   sevenZipUrl: SEVEN_ZIP_URL,
@@ -37,11 +37,11 @@ new G4DNStack(app, 'CloudGraphicsOnG4DN', {
     region: REGION,
   },
   tags: {
-    project: 'CloudGraphicsOnG4DN',
+    project: 'CloudGamingOnG4DN',
   },
 });
 
-new G5Stack(app, 'CloudGraphicsOnG5', {
+new G5Stack(app, 'CloudGamingOnG5', {
   niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
   niceDCVServerUrl: NICE_DCV_SERVER_URL,
   sevenZipUrl: SEVEN_ZIP_URL,
@@ -58,11 +58,11 @@ new G5Stack(app, 'CloudGraphicsOnG5', {
     region: REGION,
   },
   tags: {
-    project: 'CloudGraphicsOnG5',
+    project: 'CloudGamingsOnG5',
   },
 });
 
-new G4ADStack(app, 'CloudGraphicsOnG4AD', {
+new G4ADStack(app, 'CloudGamingsOnG4AD', {
   niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
   niceDCVServerUrl: NICE_DCV_SERVER_URL,
   chromeUrl: CHROME_URL,
@@ -79,6 +79,6 @@ new G4ADStack(app, 'CloudGraphicsOnG4AD', {
     region: REGION,
   },
   tags: {
-    project: 'CloudGraphicsOnG4AD',
+    project: 'CloudGamingsOnG4AD',
   },
 });
