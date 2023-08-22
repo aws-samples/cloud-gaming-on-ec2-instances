@@ -17,6 +17,10 @@ export class G4DNStack extends BaseEc2Stack {
     return ec2.InstanceType.of(ec2.InstanceClass.G4DN, this.props.instanceSize);
   }
 
+  protected getMachineImage() {
+    return ec2.MachineImage.latestWindows(ec2.WindowsVersion.WINDOWS_SERVER_2022_ENGLISH_FULL_BASE);
+  }
+
   protected getGpuType(): string {
     return 'NVIDIA';
   }

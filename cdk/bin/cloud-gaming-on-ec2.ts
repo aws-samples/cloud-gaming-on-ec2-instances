@@ -18,7 +18,7 @@ const VOLUME_SIZE_GIB = 200;
 const OPEN_PORTS = [8443];
 const ALLOW_INBOUND_CIDR = '0.0.0.0/0';
 const ACCOUNT_ID = 'CHANGE_ME';
-const REGION = 'eu-west-1';
+const REGION = 'eu-west-2';
 
 new G4DNStack(app, 'CloudGamingsOnG4DN', {
   niceDCVDisplayDriverUrl: NICE_DCV_DISPLAY_DRIVER_URL,
