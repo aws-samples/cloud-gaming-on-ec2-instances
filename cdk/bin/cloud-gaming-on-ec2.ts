@@ -15,8 +15,8 @@ const CHROME_URL = 'https://dl.google.com/tag/s/appname=Google%20Chrome&needsadm
 const SEVEN_ZIP_URL = 'https://www.7-zip.org/a/7z2201-x64.msi';
 
 const EC2_KEYPAIR_NAME = 'windows-machine';
-const VOLUME_SIZE_GIB = 200;
-const OPEN_PORTS = [8443];
+const VOLUME_SIZE_GIB = 550;
+const OPEN_PORTS = [8443, ...Array.from({ length: 48010 - 47984 + 1 }, (_, i) => i + 47984)]; // DCV and Sunshine/Moonlight ports
 const ALLOW_INBOUND_CIDR = '0.0.0.0/0';
 const ACCOUNT_ID = '851725633425';
 const REGION = 'us-west-2';
