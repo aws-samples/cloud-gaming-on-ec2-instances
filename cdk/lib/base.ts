@@ -7,17 +7,17 @@ import { Construct } from 'constructs';
 import { InstanceSize } from 'aws-cdk-lib/aws-ec2/lib/instance-types';
 
 export interface BaseConfig extends cdk.StackProps {
-    instanceSize: InstanceSize;
-    ec2KeyName: string;
-    volumeSizeGiB: number;
-    niceDCVDisplayDriverUrl: string;
-    niceDCVServerUrl: string;
-    sevenZipUrl: string,
-    chromeUrl: string,
-    gridSwCertUrl: string,
-    openPorts: number[];
-    allowInboundCidr: string;
-    associateElasticIp: boolean;
+  instanceSize: InstanceSize;
+  ec2KeyName: string;
+  volumeSizeGiB: number;
+  niceDCVDisplayDriverUrl: string;
+  niceDCVServerUrl: string;
+  sevenZipUrl: string,
+  chromeUrl: string,
+  gridSwCertUrl: string,
+  openPorts: number[];
+  allowInboundCidr: string;
+  associateElasticIp: boolean;
 
 }
 
@@ -27,7 +27,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: BaseConfig) {
     super(scope, id, props);
     this.props = props;
-    const vpc = new ec2.Vpc(this, 'CloudGamingVPC', {
+    const vpc = new ec2.Vpc(this, 'CloudDesktopVPC', {
       ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
       maxAzs: 1,
       subnetConfiguration: [
@@ -52,7 +52,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
     }
 
     const s3Read = new Role(this, `${id}S3Read`, {
-      roleName: `${id}.GamingDriverS3Access`,
+      roleName: `${id}.DesktopDriverS3Access`,
       assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
     });
 
@@ -61,7 +61,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
       actions: ['s3:GetObject', 's3:ListBucket'],
     }));
 
-    const launchTemplate = new ec2.CfnLaunchTemplate(this, 'GamingLaunchTemplate', {
+    const launchTemplate = new ec2.CfnLaunchTemplate(this, 'DesktopLaunchTemplate', {
       launchTemplateData: {
         keyName: props.ec2KeyName,
         instanceType: this.getInstanceType().toString(),
@@ -72,7 +72,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
           groups: [securityGroup.securityGroupId],
         }],
       },
-      launchTemplateName: `GamingInstanceLaunchTemplate/${this.getInstanceType().toString()}`,
+      launchTemplateName: `DesktopInstanceLaunchTemplate/${this.getInstanceType().toString()}`,
     });
 
     const ec2Instance = new ec2.Instance(this, 'EC2Instance', {
@@ -92,7 +92,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
       ],
       role: s3Read,
       init: ec2.CloudFormationInit.fromConfigSets({
-        configSets: { 
+        configSets: {
           // Seperate configSets and specific order depending on EC2 Instance Type
           NVIDIA: ['helpersPreinstall', 'nvidia', 'nvidiadcv', 'reboot'],
           AMD: ['helpersPreinstall', 'amd', 'amddcv', 'reboot'],
@@ -109,7 +109,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
             ec2.InitPackage.msi(this.props.niceDCVServerUrl, { key: '3-Install-NICEDCV-Server' }),
             ec2.InitPackage.msi(this.props.niceDCVDisplayDriverUrl, { key: '4-Install-NICEDCV-Display' }),
             ec2.InitCommand.shellCommand('reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\nvlddmkm\\Global" /v vGamingMarketplace /t REG_DWORD /d 2', { key: '9-Add-Reg', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
-            ec2.InitCommand.shellCommand('reg add "HKEY_USERS\\S-1-5-18\\Software\\GSettings\\com\\nicesoftware\\dcv\\log\\level" /v log-level /t REG_SZ /d debug /f', { key: '91-Add-Reg', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),            
+            ec2.InitCommand.shellCommand('reg add "HKEY_USERS\\S-1-5-18\\Software\\GSettings\\com\\nicesoftware\\dcv\\log\\level" /v log-level /t REG_SZ /d debug /f', { key: '91-Add-Reg', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
             ec2.InitCommand.shellCommand('reg add "HKEY_USERS\\S-1-5-18\\Software\\GSettings\\com\\nicesoftware\\dcv\\display" /v target-fps /t REG_DWORD /d 0 /f', { key: '92-Add-Reg', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
             ec2.InitCommand.shellCommand('reg add "HKEY_USERS\\S-1-5-18\\Software\\GSettings\\com\\nicesoftware\\dcv\\display" /v enable-qu /t REG_DWORD /d 0 /f', { key: '93-Add-Reg', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
             ec2.InitCommand.shellCommand('reg add "HKEY_USERS\\S-1-5-18\\Software\\GSettings\\com\\nicesoftware\\dcv\\display" /v frame-queue-weights /t REG_DWORD /d 851 /f', { key: '94-Add-Reg', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
@@ -140,7 +140,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
             ec2.InitCommand.shellCommand('Powershell.exe -Command "C:\\Windows\\System32\\DriverStore\\FileRepository\\nvg*\\nvidia-smi.exe -e 0"', { key: '9-Disable-ECC-Checking', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
             ec2.InitCommand.shellCommand('Powershell.exe -Command "C:\\Windows\\System32\\DriverStore\\FileRepository\\nvg*\\nvidia-smi.exe -ac 6250,1710"', { key: '910-Clock-Speed', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
             //ec2.InitCommand.shellCommand('Powershell.exe -Command "C:\\Windows\\System32\\DriverStore\\FileRepository\\nvg*\\nvidia-smi.exe -ac 5001,1590"', { key: '910-Clock-Speed', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
-            
+
           ]),
           amd: new ec2.InitConfig([
             // Command to download and install latest AMD drivers.
@@ -168,13 +168,13 @@ export abstract class BaseEc2Stack extends cdk.Stack {
         // Optional, whether to include the --role argument when running cfn-init and cfn-signal commands (false by default)
         // includeRole: true,
       },
-      instanceName: `GamingInstance/${this.getInstanceType().toString()}`,
+      instanceName: `DesktopInstance/${this.getInstanceType().toString()}`,
     });
     // Needed as cdk created hashed LogicalID and CFN signal does not work after reboot, so we have to hardcode the Logical Name in the signal (line #136)
     ec2Instance.instance.overrideLogicalId('EC2Instance');
 
     if (this.props.associateElasticIp) {
-      const elasticIp = new ec2.CfnEIP(this, 'Gaming', {
+      const elasticIp = new ec2.CfnEIP(this, 'Desktop', {
         instanceId: ec2Instance.instanceId,
       });
 
@@ -189,9 +189,9 @@ export abstract class BaseEc2Stack extends cdk.Stack {
     new cdk.CfnOutput(this, 'LaunchTemplateId', { value: launchTemplate.launchTemplateName! });
   }
 
-    protected abstract getInstanceType(): ec2.InstanceType;
+  protected abstract getInstanceType(): ec2.InstanceType;
 
-    protected abstract getMachineImage(): ec2.IMachineImage;
+  protected abstract getMachineImage(): ec2.IMachineImage;
 
-    protected abstract getGpuType(): string;
+  protected abstract getGpuType(): string;
 }
