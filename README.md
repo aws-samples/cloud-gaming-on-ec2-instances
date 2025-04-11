@@ -21,7 +21,7 @@ This repository contains the full source code that is used in the blog post [Use
 #### 1. Make sure you completed the prerequisites above and cloned this repo.
 
 ```
-git clone git@github.com:aws-samples/cloud-gaming-on-ec2-instances
+git clone https://github.com/aws-samples/cloud-gaming-on-ec2-instances.git 
 ```
 
 #### 2. Open the repository in your preferred IDE and familiarize yourself with the structure of the project.
@@ -44,15 +44,15 @@ Navigate into `cdk` folder it and run `npm install`
 
 Before you can deploy the stack, you need to review the config. Navigate to `cdk/bin/cloud-gaming-on-ec2.ts` and review / update the following parameters:
 
-- `ACCOUNT`: The account id you want to deploy the stack in
-- `REGION`: The region you want to deploy the stack in
-- `NICE_DCV_DISPLAY_DRIVER_URL`: The download URL of the NICE DCV Virtual Display Driver for EC2. You can leave this unless the link is broken or you want to use a different version.
-- `NICE_DCV_SERVER_URL`: The download URL of the NICE DCV Server. You can leave this unless the link is broken or you want to use a different version.
-- `InstanceSize`: Sets the size of the EC2 Instance. Defaults to `g5.xlarge`, `g4dn.xlarge`, and `g4ad.xlarge` respectively. 
+- `ACCOUNT`: (required) The account id you want to deploy the stack in
+- `REGION`: (required) The region you want to deploy the stack in
+- `NICE_DCV_DISPLAY_DRIVER_URL`: The download URL of the Amazon DCV Virtual Display Driver (formerly NICE DCV) for EC2. You can leave this unless the link is broken or you want to use a different version.
+- `NICE_DCV_SERVER_URL`: The download URL of the Amazon DCV Server (formerly NICE DCV). You can leave this unless the link is broken or you want to use a different version.
+- `InstanceSize`: Sets the size of the EC2 Instance. Defaults to `g6.xlarge`, `g6e.xlarge`, `gr6.xlarge` ,`g5.xlarge`, `g4dn.xlarge`, and `g4ad.xlarge` respectively. 
 - `associateElasticIp`: Controls if an Elastic IP address will be created and added to the EC2 instance.
-- `EC2_KEYPAIR_NAME`: The name of the EC2 key pair you will use to connect to the instance. Make sure to have access to the respective .pem file.
+- `EC2_KEYPAIR_NAME`: (required) The name of the EC2 key pair you will use to connect to the instance. Make sure to have access to the respective .pem file.
 - `VOLUME_SIZE_GIB`: The size of the root EBS volume. Around 20 GB will be used for the Windows installation, the rest will be available for your software. Note: Some EC2 Instance Types include instance store which can be initalized. 
-- `OPEN_PORTS`: Access from these ports will be allowed. Per default this will only allow access for NICE DCV on port 8443
+- `OPEN_PORTS`: Access from these ports will be allowed. Per default this will only allow access for Amazon DCV (formerly NICE DCV) on port 8443
 - `ALLOW_INBOUND_CIDR`: Access from this CIDR range will be allowed. Per default this will allow access from /0, but I recommend to restrict this to your IP address only.
 - `GRID_SW_CERT_URL`: (Only for g4dn/g5 instances) The NVIDIA driver requires a certificate file which can be downloaded from Amazon S3. You can leave this unless the link is broken or you want to use a different certificate.
 - `tags`: A list of resource tags that will be added to every taggable resource in the stack.
@@ -66,17 +66,17 @@ The CDK code is written in TypeScript, an extension to JavaScript that adds stat
 To run the CDK code, navigate to the `cdk` folder and run the following commands
 
 ```
-cdk bootstrap
-cdk deploy <StackName>
+$ cdk bootstrap
+$ cdk deploy <StackName>
 ```
 
 After bootstrapping the required resources for the CDK with `cdk bootstrap` you can then deploy the template with `cdk deploy <StackName>`. Bootstrapping is only require once.
 
-`<StackName>` can be either `CloudGamingOnG4DN`, `CloudGamingOnG4AD` or `CloudGamingOnG5`, depending on the instance type you want to use.
+`<StackName>` can be either `CloudGamingOnG6`, `CloudGamingOnG6E`, `CloudGamingOnGR6`, `CloudGamingOnG4DN`, `CloudGamingOnG4AD` or `CloudGamingOnG5`, depending on the instance type you want to use.
 
-The following table gives an overview over the expected graphics performance, expressed as 3DMark Time Spy scores.
+The following table gives an overview over the expected graphics performance at 1080p, expressed as 3DMark Time Spy (v x.xx) scores.
 
-| Instance Type | 3DMark Score | On-demand Price (us-east-1, USD, 02/23) | Price-performance (3DMark points / $) |
+| Instance Type | 3DMark Score | On-demand Price (us-east-1, USD, 04/09) | Price-performance (3DMark points / $) |
 |--------------|--------------|-----------------------------------------|---------------------------------------|
 | g4dn.xlarge  | 4300         | $0.71                                   | 6056                                  |
 | g4dn.2xlarge | 4800         | $1.12                                   | 4286                                  |
@@ -87,7 +87,13 @@ The following table gives an overview over the expected graphics performance, ex
 | g5.xlarge    | 6800         | $1.19                                   | 5714                                  |
 | g5.2xlarge   | 10200        | $1.58                                   | 6456                                  |
 | g5.4xlarge   | 13000        | $2.36                                   | 5508                                  |
-
+| g6.xlarge    | N/A        | $0.99                                   | N/A                                  |
+| g6.2xlarge   | N/A        | $1.35                                   | N/A                                  |
+| g6.4xlarge   | N/A        | $2.10                                   | N/A                                  |
+| g6e.xlarge   | N/A        | $2.00                                   | N/A                                  |
+| g6e.2xlarge   | N/A        | $2.60                                   | N/A                                  |
+| g6e.4xlarge   | N/A        | $3.70                                   | N/A                                  |
+| gr6.4xlarge   | N/A        | $2.28                                   | N/A                                  |
 
 Stack completion usually takes `8-15` minutes.
 
@@ -100,41 +106,48 @@ Follow the instructions in the associated blog post [Use Amazon EC2 for cost-eff
 List EC2 key pairs
 
 ```
-aws ec2 describe-key-pairs --query 'KeyPairs[*].KeyName' --output table
+$ aws ec2 describe-key-pairs --query 'KeyPairs[*].KeyName' --output table
 ```
 Create a new key pair and the PEM file to store your private key
 ```
 KEY_NAME=GamingOnEc2
-aws ec2 create-key-pair --key-name $KEY_NAME --query 'KeyMaterial' --output text > $KEY_NAME.pem
+$ aws ec2 create-key-pair --key-name $KEY_NAME --query 'KeyMaterial' --output text > $KEY_NAME.pem
 ```
-
+Get Password Data from your launched instance.
+```
+$ aws ec2 get-password-data --instance-id <INSTANCE_ID> --priv-launch-key /path/to/GamingOnEc2.pem
+```
 Start / Stop an EC2 instance
 ```
-aws ec2 start-instances --instance-ids INSTANCE_ID
-aws ec2 stop-instances --instance-ids INSTANCE_ID
+$ aws ec2 start-instances --instance-ids INSTANCE_ID
+$ aws ec2 stop-instances --instance-ids INSTANCE_ID
 ```
 
 Creates an Amazon Machine Image from an EC2 instance
 ```
-aws ec2 create-image --instance-id <YOUR_INSTANCE_ID> --name <THE_NAME_OF_YOUR_AMI>
+$ aws ec2 create-image --instance-id <YOUR_INSTANCE_ID> --name <THE_NAME_OF_YOUR_AMI>
 ```
 
 Starts a new EC2 instance from a launch template
 ```
-aws ec2 run-instances --image-id <YOUR_AMI_ID> --launch-template LaunchTemplateName=<LAUNCH_TEMPLATE_NAME> --query "Instances[*].[InstanceId, PublicIpAddress]" --output table
+$ aws ec2 run-instances --image-id <YOUR_AMI_ID> --launch-template LaunchTemplateName=<LAUNCH_TEMPLATE_NAME> --query "Instances[*].[InstanceId, PublicIpAddress]" --output table
 ```
 
 List your instances
 ```
-aws ec2 describe-instances --query "Reservations[*].Instances[*].[ImageId, InstanceType, VpcId, State.Name, PublicIpAddress, LaunchTime]" --output table
+$ aws ec2 describe-instances --query "Reservations[*].Instances[*].[ImageId, InstanceType, VpcId, State.Name, PublicIpAddress, LaunchTime]" --output table
+```
+Deploy some stacks at once, without rollback and dont require approval for IAM resources
+```
+$ cdk deploy CloudGamingOnG6 CloudGamingOnG6E CloudGamingOnGR6 --no-rollback --concurrency=3 --require-approval=never
 ```
 Deploy all stacks at once, without rollback and dont require approval for IAM resources
 ```
-cdk deploy --all --no-rollback --concurrency=3 --require-approval=never
+$ cdk deploy --all --no-rollback --concurrency=6 --require-approval=never
 ```
 List all stacks
 ```
-cdk list
+$ cdk list
 ```
 
 ## Security
