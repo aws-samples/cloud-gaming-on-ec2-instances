@@ -38,6 +38,10 @@ git clone https://github.com/aws-samples/cloud-gaming-on-ec2-instances.git
 node.js dependencies are declared in a `package.json`. This project contains a `package.json` file in the `cdk` folder. 
 
 Navigate into `cdk` folder it and run `npm install` 
+```
+$ cd cdk 
+$ npm install
+```
 
 
 #### 4. Configure your environment

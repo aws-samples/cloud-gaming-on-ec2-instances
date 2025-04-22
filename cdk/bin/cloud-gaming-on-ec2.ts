@@ -14,20 +14,17 @@ const app = new cdk.App();
 
 const NICE_DCV_DISPLAY_DRIVER_URL = 'https://d1uj6qtbmh3dt5.cloudfront.net/nice-dcv-virtual-display-x64-Release.msi';
 const NICE_DCV_SERVER_URL = 'https://d1uj6qtbmh3dt5.cloudfront.net/nice-dcv-server-x64-Release.msi';
-//const NICE_DCV_SERVER_URL = 'https://d1uj6qtbmh3dt5.cloudfront.net/2023.0/Servers/nice-dcv-server-x64-Release-2023.0-15487.msi';              
-//const GRID_SW_CERT_URL = 'https://nvidia-gaming.s3.amazonaws.com/GridSwCert-Archive/GridSwCertWindows_2021_10_2.cert';
 const GRID_SW_CERT_URL = 'https://nvidia-gaming.s3.amazonaws.com/GridSwCert-Archive/GridSwCertWindows_2024_02_22.cert';
 const CHROME_URL = 'https://dl.google.com/tag/s/appname=Google%20Chrome&needsadmin=true&ap=x64-stable-statsdef_0&brand=GCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi';
-//const SEVEN_ZIP_URL = 'https://www.7-zip.org/a/7z2201-x64.msi';
 const SEVEN_ZIP_URL = 'https://7-zip.org/a/7z2409-x64.msi';
 
 
 
-const EC2_KEYPAIR_NAME = 'N.Virginia';
+const EC2_KEYPAIR_NAME = 'CHANGE_ME';
 const VOLUME_SIZE_GIB = 200;
 const OPEN_PORTS = [8443];
 const ALLOW_INBOUND_CIDR = '0.0.0.0/0';
-const ACCOUNT_ID = '844633438632';
+const ACCOUNT_ID = 'CHANGE_ME';
 const REGION = 'us-east-1';
 
 new G4DNStack(app, 'CloudGamingsOnG4DN', {
