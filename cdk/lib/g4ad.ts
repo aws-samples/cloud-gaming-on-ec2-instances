@@ -18,7 +18,7 @@ export class G4ADStack extends BaseEc2Stack {
   }
 
   protected getMachineImage() {
-    return ec2.MachineImage.latestWindows(ec2.WindowsVersion.WINDOWS_SERVER_2022_ENGLISH_FULL_BASE);
+    return ec2.MachineImage.latestWindows(ec2.WindowsVersion.WINDOWS_SERVER_2025_ENGLISH_FULL_BASE);
 }
 
   protected getGpuType(): string {
