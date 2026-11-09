@@ -15,7 +15,7 @@ const app = new cdk.App();
 const NICE_DCV_DISPLAY_DRIVER_URL = 'https://d1uj6qtbmh3dt5.cloudfront.net/nice-dcv-virtual-display-x64-Release.msi';
 const NICE_DCV_SERVER_URL = 'https://d1uj6qtbmh3dt5.cloudfront.net/nice-dcv-server-x64-Release.msi';
 const GRID_SW_CERT_URL = 'https://nvidia-gaming.s3.amazonaws.com/GridSwCert-Archive/GridSwCertWindows_2024_02_22.cert';
-const CHROME_URL = 'https://dl.google.com/tag/s/appname=Google%20Chrome&needsadmin=true&ap=x64-stable-statsdef_0&brand=GCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi';
+const CHROME_URL = 'https://dl.google.com/dl/chrome/install/googlechromestandaloneenterprise64.msi';
 const SEVEN_ZIP_URL = 'https://7-zip.org/a/7z2409-x64.msi';
 
 
