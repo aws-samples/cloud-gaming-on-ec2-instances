@@ -149,7 +149,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
           ]),
           reboot: new ec2.InitConfig([
             // Command to reboot instance and apply registry changes.
-            ec2.InitCommand.shellCommand('powershell.exe -Command Restart-Computer -force', { key: '92-restart', waitAfterCompletion: ec2.InitCommandWaitDuration.forever() }),
+            ec2.InitCommand.shellCommand('shutdown /r /t 10', { key: '92-restart', waitAfterCompletion: ec2.InitCommandWaitDuration.forever() }),
             ec2.InitCommand.shellCommand('"C:\\Program Files\\NICE\\DCV\\Server\\bin\\dcv.exe" list-sessions"', { key: '93-check', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(5)) }),
             ec2.InitCommand.shellCommand(`cfn-signal.exe -e %ERRORLEVEL% --resource EC2Instance --stack ${this.stackId} --region ${this.region}`, { key: '94-Signal', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(5)) }),
           ]),
