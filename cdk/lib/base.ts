@@ -163,7 +163,7 @@ export abstract class BaseEc2Stack extends cdk.Stack {
         configSets: [this.getGpuType()],
 
         // Optional, how long the installation is expected to take (5 minutes by default)
-        timeout: cdk.Duration.minutes(15),
+        timeout: cdk.Duration.minutes(60),
 
         // Optional, whether to include the --url argument when running cfn-init and cfn-signal commands (false by default)
         includeUrl: true,
