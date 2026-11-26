@@ -94,8 +94,8 @@ export abstract class BaseEc2Stack extends cdk.Stack {
       init: ec2.CloudFormationInit.fromConfigSets({
         configSets: { 
           // Seperate configSets and specific order depending on EC2 Instance Type
-          NVIDIA: ['helpersPreinstall', 'nvidia', 'nvidiadcv', 'reboot'],
-          AMD: ['helpersPreinstall', 'amd', 'amddcv', 'reboot'],
+          NVIDIA: ['helpersPreinstall', 'nvidia', 'nvidiadcv', 'windowsFeatures', 'reboot'],
+          AMD: ['helpersPreinstall', 'amd', 'amddcv', 'windowsFeatures', 'reboot'],
         },
         configs: {
           helpersPreinstall: new ec2.InitConfig([
@@ -146,6 +146,9 @@ export abstract class BaseEc2Stack extends cdk.Stack {
             // Command to download and install latest AMD drivers.
             ec2.InitCommand.shellCommand('powershell.exe -Command "$InstallationFilesFolder = \'C:\\Users\\Administrator\\Desktop\\InstallationFiles\'; $Bucket = \'ec2-amd-windows-drivers\'; $KeyPrefix = \'latest\'; $Objects = Get-S3Object -BucketName $Bucket -KeyPrefix $KeyPrefix -Region us-east-1; foreach ($Object in $Objects) { $LocalFileName = $Object.Key; if ($LocalFileName -ne \'\' -and $Object.Size -ne 0) { $LocalFilePath = Join-Path $InstallationFilesFolder\\1_AMD_driver $LocalFileName; Copy-S3Object -BucketName $Bucket -Key $Object.Key -LocalFile $LocalFilePath -Region us-east-1;  Expand-Archive $LocalFilePath -DestinationPath $InstallationFilesFolder\\1_AMD_driver -Force } }"', { key: '5-Download-AMD-Drivers', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
             ec2.InitCommand.shellCommand('powershell.exe -Command "& { $exitCode = 0; $infFiles = Get-ChildItem \'C:\\Users\\Administrator\\Desktop\\InstallationFiles\\1_AMD_driver\\Packages\\Drivers\\Display\\WT6A_INF\\*.inf\'; Write-Host (\'Found \' + $infFiles.Count + \' driver files to install.\'); foreach ($file in $infFiles) { Write-Host (\'Processing driver: \' + $file.Name); $result = pnputil /add-driver $file.FullName /install; Write-Host (\'Result for \' + $file.Name + \': \' + $LASTEXITCODE); if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne 259 -and $LASTEXITCODE -ne 3010) { Write-Host (\'Error installing \' + $file.Name + \' with code: \' + $LASTEXITCODE); $exitCode = $LASTEXITCODE } }; exit $exitCode }"', { key: '6-Install-AMD-Drivers', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
+          ]),
+          windowsFeatures: new ec2.InitConfig([
+            ec2.InitCommand.shellCommand('powershell.exe -NoProfile -Command "Install-WindowsFeature Net-Framework-Core, Server-Media-Foundation"', { key: '00-Install-Windows-Features', waitAfterCompletion: ec2.InitCommandWaitDuration.of(cdk.Duration.seconds(0)) }),
           ]),
           reboot: new ec2.InitConfig([
             // Command to reboot instance and apply registry changes.
